@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Hand/red</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+    <header>
+        <div id="namePanel">
+            <button type="button" onclick="openNav()" id="openNavButton"></button>
+            <span id="name">Hand/red</span>
+        </div>
+        <div id="toolbar">
+            <button type="button" onclick="downloadDocument('editor' , 'word-content.docx')"
+                id="downloadButton"></button>
+            <hr>
+            <div id="fontEdit">
+                <div id="FontSelections">
+                    <select onchange="formatText('fontName', this.value)" id="fontNameSelect">
+                        <option value="Arial">Arial</option>
+                        <option value="Times New Roman" selected>Times New Roman</option>
+                        <option value="Courier New">Courier New</option>
+                    </select>
+                    <select onchange="formatText('fontSize', this.value)" id="fontSizeSelect">
+                        <option value="1">7.5</option>
+                        <option value="2">10</option>
+                        <option value="3" selected>12</option>
+                        <option value="4">14</option>
+                        <option value="5">18</option>
+                        <option value="6">24</option>
+                        <option value="7">36</option>
+                    </select>
+                </div>
+                <div id="fontButtons">
+                    <button onclick="formatText('bold')" id="boldButton"><b>B</b></button>
+                    <button onclick="formatText('italic')" id="italicButton"><i>I</i></button>
+                    <button onclick="formatText('underline')" id="underlineButton"><u>U</u></button>
+                    <button onclick="formatText('strikeThrough')" id="strikeThroughButton"><strike>S</strike></button>
+                    <button onclick="formatText('subscript')" id="subscriptButton">X<sub>2</sub></button>
+                    <button onclick="formatText('superscript')" id="superscriptButton">X<sup>2</sup></button>
+                </div>
+            </div>
+            <hr>
+            <div id="colorsEdit">
+                <div><span id="fontColortext">Шрифт</span><input type="color"
+                        onchange="formatText('foreColor', this.value)" id="fontColor"></div>
+                <div><span id="fontColortext">Выделение</span><input type="color"
+                        onchange="formatText('backColor', this.value)" id="fontBackColor"></div>
+            </div>
+            <hr>
+            <div id="textEdit">
+                <div id="justifyEdit">
+                    <button onclick="formatText('justifyLeft')" id="justifyLeftButton"></button>
+                    <button onclick="formatText('justifyCenter')" id="justifyCenterButton"></button>
+                    <button onclick="formatText('justifyRight')" id="justifyRightButton"></button>
+                    <button onclick="formatText('justifyFull')" id="justifyFullButton"></button>
+                </div>
+                <div id="listsAndTable">
+                    <button type="button" onclick="formatText('insertUnorderedList')"
+                        id="insertUnorderedListButton"></button>
+                    <button type="button" onclick="formatText('insertOrderedList')"
+                        id="insertOrderedListButton"></button>
+                    <button type="button" onclick="createTable()" id="createTableButton"></button>
+                </div>
+            </div>
+            <hr>
+            <div id="recognitionPanel">
+                <button onclick="toggleHandwritingPanel()" id="handwritingPanelButton"></button>
+                <button onclick="startRecogn()" id="speechRecognitionButton"></button>
+                <button onclick="toggleVideo()" id="toggleButton"></button>
+            </div>
+
+            <hr>
+            <button onclick="switchLanguage()" id="language">Ru</button>
+        </div>
+    </header>
+    <main>
+        <div id="mySidenav" class="sidenav">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+            <h2>Документы</h2>
+            <div id="tdlApp">
+                <input type="text" class="form-control" placeholder="Новый документ">
+                <div class="tdlDiv">
+                    <ul>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div id="editorContainer">
+            <div id="editor" contenteditable="true"></div>
+        </div>
+        <div id="videoPanel" style="display: none;">
+            <video id="video" autoplay>Video stream not available</video>
+            <div id="photoRecognizedText"></div>
+            <button onclick="videoPanelPushButton()" id="videoPanelPushButton">Ввести</button>
+        </div>
+        <div id="handwritingPanel" style="display: none;">
+            <div id="smallScreenhandwriteButtons">
+                <button onclick="backspaceButton()" id="smallBackspaceButton"></button>
+                <button onclick="spaceButton()" id="smallSpaceButton"></button>
+                <button onclick="enterButton()" id="smallEnterButton"></button>
+                <button onclick="clearCanv()" id="smallClearCanvButton"></button>
+                <button onclick="changeColor()" id="smallEraseButton"></button>
+                <button onclick="handwritingPanelPushButton()" id="smallHandwritingPanelPushButton"></button>
+            </div>
+            <div id="recognizedText"></div>
+            <div id="handwritePanelAndButtons">
+                <div id="handwriteButtons">
+                    <button onclick="backspaceButton()" id="backspaceButton"></button>
+                    <button onclick="spaceButton()" id="spaceButton"></button>
+                    <button onclick="enterButton()" id="enterButton"></button>
+                </div>
+                <canvas id="canvas" width="800" height="150">Canvas error</canvas>
+                <div id="handwriteButtons">
+                    <button onclick="handwritingPanelPushButton()" id="handwritingPanelPushButton"></button>
+                    <button onclick="changeColor()" id="eraseButton"></button>
+                    <button onclick="clearCanv()" id="clearCanvButton"></button>
+                </div>
+            </div>
+        </div>
+        <div class="cardMenu">
+            <select onchange="formatText('fontName', this.value)" id="cardfontNameSelect">
+                <option value="Arial">Arial</option>
+                <option value="Times New Roman" selected>Times New Roman</option>
+                <option value="Courier New">Courier New</option>
+            </select>
+            <select onchange="formatText('fontSize', this.value)" id="cardfontSizeSelect">
+                <option value="1">7.5</option>
+                <option value="2">10</option>
+                <option value="3" selected>12</option>
+                <option value="4">14</option>
+                <option value="5">18</option>
+                <option value="6">24</option>
+                <option value="7">36</option>
+            </select>
+            <button onclick="formatText('bold')" id="cardboldButton"><b>B</b></button>
+            <button onclick="formatText('italic')" id="carditalicButton"><i>I</i></button>
+            <button onclick="formatText('underline')" id="cardunderlineButton"><u>U</u></button>
+            <button onclick="formatText('strikeThrough')" id="cardstrikeThroughButton"><strike>S</strike></button>
+            <button onclick="formatText('subscript')" id="cardsubscriptButton">X<sub>2</sub></button>
+            <button onclick="formatText('superscript')" id="cardsuperscriptButton">X<sup>2</sup></button>
+            <button onclick="formatText('justifyLeft')" id="cardjustifyLeftButton"></button>
+            <button onclick="formatText('justifyCenter')" id="cardjustifyCenterButton"></button>
+            <button onclick="formatText('justifyRight')" id="cardjustifyRightButton"></button>
+            <button onclick="formatText('justifyFull')" id="cardjustifyFullButton"></button>
+            <button type="button" onclick="formatText('insertUnorderedList')"
+                id="cardinsertUnorderedListButton"></button>
+            <button type="button" onclick="formatText('insertOrderedList')" id="cardinsertOrderedListButton"></button>
+            <button type="button" onclick="createTable()" id="cardcreateTableButton"></button>
+            <input type="color" onchange="formatText('foreColor', this.value)" id="cardfontColor">
+            <input type="color" onchange="formatText('backColor', this.value)" id="cardfontBackColor">
+        </div>
+    </main>
+    <script src='https://unpkg.com/tesseract.js@4.0.2/dist/tesseract.min.js'></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
